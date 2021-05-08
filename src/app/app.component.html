@@ -1,0 +1,13 @@
+<div class="container">
+    <div nz-row nzGutter=8>
+        <div nz-col nzSpan="4">
+            <form nz-form [formGroup]="searchForm">
+                <nz-select [nzLoading]="searching" (nzOnSearch)="onSearch($event)" formControlName="autocomplete" nzShowSearch nzAllowClear nzServerSearch nzPlaceHolder="Select a value">
+                    <ng-container *ngFor="let item of (data$ | async)">
+                        <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+                    </ng-container>
+                </nz-select>
+            </form>
+        </div>
+    </div>
+</div>
