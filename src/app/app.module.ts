@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './modules/shared/shared.module';
 import { ActorsService } from './services/actors.service';
+import { ConfigService } from './services/config.service';
+import { Observable } from 'rxjs';
+import { Config } from 'protractor';
 
 registerLocaleData(en);
 
@@ -28,7 +31,16 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     SharedModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, {provide: ActorsService}],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US }, 
+    { provide: ActorsService },
+    { provide: ConfigService },
+    { provide: APP_INITIALIZER, useFactory: ConfigProviderFactory, deps: [ConfigService], multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+function ConfigProviderFactory(configService: ConfigService): () => Observable<Config> {
+  return () => configService.get();
+}

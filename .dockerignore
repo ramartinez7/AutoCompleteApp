@@ -1,0 +1,7 @@
+.git
+.editorconfig
+.gitigonore
+/node_modules
+/e2e
+/.vscode
+/dist
